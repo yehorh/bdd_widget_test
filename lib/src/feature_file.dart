@@ -92,7 +92,9 @@ class FeatureFile {
   List<StepFile> getStepFiles() => _stepFiles;
 
   static List<BddLine> _prepareLines(Iterable<BddLine> input) {
-    final inputList = input.toList(growable: false);
+    final inputList = input
+        .where((line) => line.type != LineType.comment)
+        .toList(growable: false);
     final lines = inputList
         .mapIndexed(
           (index, bddLine) {

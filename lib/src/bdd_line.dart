@@ -19,6 +19,7 @@ enum LineType {
   scenario,
   scenarioOutline,
   step,
+  comment,
   dataTableStep,
   after,
   examples,
@@ -54,6 +55,9 @@ LineType _lineTypeFromString(String line) {
   if (tagMarkers.any((marker) => line.startsWith(marker))) {
     return LineType.tag;
   }
+  if (commentMarkers.any((marker) => line.startsWith(marker))) {
+    return LineType.comment;
+  }
   return LineType.unknown;
 }
 
@@ -66,6 +70,7 @@ const scenarioOutlineMarkers = ['Scenario Outline:'];
 const stepMarkers = ['Given', 'When', 'Then', 'And', 'But'];
 const examplesMarkers = ['|'];
 const examplesTitleMarkers = ['Examples:', 'Scenarios:'];
+const commentMarkers = ['#'];
 
 String _removeLinePrefix(String rawLine) {
   final lines = rawLine.split(' ');

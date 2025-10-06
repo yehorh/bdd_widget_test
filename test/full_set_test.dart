@@ -5,8 +5,10 @@ import 'package:test/test.dart';
 void main() {
   test('fully custom test ', () {
     const featureFile = '''
+# This is a comment
 @customFeatureTag
 Feature: Counter
+    This is a comment too
     Background:
         Given the app is running
     After:
@@ -19,6 +21,7 @@ Feature: Counter
         Then I see {'0'} text
 Feature: Counter 2
     Background:
+    #One more comment
         Given the app is running
     Scenario: Initial counter value is 0
         Given the app is running
