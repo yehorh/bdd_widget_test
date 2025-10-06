@@ -1,3 +1,7 @@
+## [2.1.2] - Gherkin comments support
+
+* Add support for Gherkin comments (lines starting with `#`)
+
 ## [2.1.1] - Improve data table step detection
 
 * Fix data table step detection when combined with scenario outline
