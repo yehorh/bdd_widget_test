@@ -152,10 +152,59 @@ String _replacePlaceholders(
       return headReplaced + tailReplaced;
     }
   }
-  // Default behaviour: placeholders become parameters
-  var replaced = line;
-  for (final e in example.keys) {
-    replaced = replaced.replaceAll('<$e>', '{${example[e]}}');
+
+  return _replacePlaceholdersWithContext(line, example);
+}
+
+// Placeholders inside {} blocks become raw values,
+// Placeholders outside {} blocks become parameters (wrapped with {})
+String _replacePlaceholdersWithContext(
+  String line,
+  Map<String, String> example,
+) {
+  final result = StringBuffer();
+  var i = 0;
+  var braceDepth = 0;
+
+  while (i < line.length) {
+    // Track brace depth to know if we're inside a parameter block
+    if (line[i] == '{') {
+      braceDepth++;
+      result.write('{');
+      i++;
+    } else if (line[i] == '}') {
+      braceDepth--;
+      result.write('}');
+      i++;
+    } else if (line[i] == '<') {
+      // Check if this is a placeholder
+      var foundPlaceholder = false;
+      for (final key in example.keys) {
+        final placeholder = '<$key>';
+        if (i + placeholder.length <= line.length &&
+            line.substring(i, i + placeholder.length) == placeholder) {
+          // Found a placeholder
+          if (braceDepth > 0) {
+            // Inside a parameter block - use raw value
+            result.write(example[key]);
+          } else {
+            // Outside parameter blocks - wrap with {}
+            result.write('{${example[key]}}');
+          }
+          i += placeholder.length;
+          foundPlaceholder = true;
+          break;
+        }
+      }
+      if (!foundPlaceholder) {
+        result.write(line[i]);
+        i++;
+      }
+    } else {
+      result.write(line[i]);
+      i++;
+    }
   }
-  return replaced;
+
+  return result.toString();
 }

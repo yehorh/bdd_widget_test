@@ -1,3 +1,7 @@
+## [2.1.3] - Data table special characters fix
+
+* Make placeholder replacement function more context-aware to avoid replacing special characters inside data table cells
+
 ## [2.1.2] - Gherkin comments support
 
 * Add support for Gherkin comments (lines starting with `#`)

@@ -577,4 +577,116 @@ void main() {
     );
     expect(feature.dartContent, expectedFeatureDart);
   });
+
+  test('Data table with single row (headers only)', () {
+    const featureFile = '''
+Feature: Testing feature
+  Scenario: Testing scenario
+    Given the following songs
+    | 'artist' | 'title' |
+''';
+
+    const expectedFeatureDart = '''
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+import 'package:bdd_widget_test/data_table.dart' as bdd;
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import './step/the_following_songs.dart';
+
+void main() {
+  group(\'\'\'Testing feature\'\'\', () {
+    testWidgets(\'\'\'Testing scenario\'\'\', (tester) async {
+      await theFollowingSongs(tester, const bdd.DataTable([['artist', 'title']]));
+    });
+  });
+}
+''';
+
+    final feature = FeatureFile(
+      featureDir: 'test.feature',
+      package: 'test',
+      input: featureFile,
+    );
+    expect(feature.dartContent, expectedFeatureDart);
+  });
+
+  test('Data table with special characters in cells', () {
+    const featureFile = '''
+Feature: Testing feature
+  Scenario: Testing scenario
+    Given the following data
+    | 'name'        | 'description'                    |
+    | 'Test "One"'  | 'Has quotes'                     |
+    | 'Test <Two>'  | 'Has angle brackets'             |
+    | 'Test {3}'    | 'Has braces'                     |
+    | 'Test, Four'  | 'Has comma'                      |
+''';
+
+    const expectedFeatureDart = '''
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+import 'package:bdd_widget_test/data_table.dart' as bdd;
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import './step/the_following_data.dart';
+
+void main() {
+  group(\'\'\'Testing feature\'\'\', () {
+    testWidgets(\'\'\'Testing scenario\'\'\', (tester) async {
+      await theFollowingData(tester, const bdd.DataTable([['name', 'description'], ['Test "One"', 'Has quotes'], ['Test <Two>', 'Has angle brackets'], ['Test {3}', 'Has braces'], ['Test, Four', 'Has comma']]));
+    });
+  });
+}
+''';
+
+    final feature = FeatureFile(
+      featureDir: 'test.feature',
+      package: 'test',
+      input: featureFile,
+    );
+    expect(feature.dartContent, expectedFeatureDart);
+  });
+
+  test('Data table with unicode and emoji', () {
+    const featureFile = '''
+Feature: Testing feature
+  Scenario: Testing scenario
+    Given the following items
+    | 'emoji' | 'description' |
+    | '🚀'    | 'Rocket'      |
+    | '💯'    | 'Perfect'     |
+    | 'Ñoño'  | 'Spanish'     |
+''';
+
+    const expectedFeatureDart = '''
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+import 'package:bdd_widget_test/data_table.dart' as bdd;
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import './step/the_following_items.dart';
+
+void main() {
+  group(\'\'\'Testing feature\'\'\', () {
+    testWidgets(\'\'\'Testing scenario\'\'\', (tester) async {
+      await theFollowingItems(tester, const bdd.DataTable([['emoji', 'description'], ['🚀', 'Rocket'], ['💯', 'Perfect'], ['Ñoño', 'Spanish']]));
+    });
+  });
+}
+''';
+
+    final feature = FeatureFile(
+      featureDir: 'test.feature',
+      package: 'test',
+      input: featureFile,
+    );
+    expect(feature.dartContent, expectedFeatureDart);
+  });
 }
