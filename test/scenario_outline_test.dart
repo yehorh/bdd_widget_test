@@ -432,4 +432,78 @@ void main() {
     );
     expect(feature.dartContent, expectedFeatureDart);
   });
+
+  test('Scenario Outline with Empty Examples Table', () {
+    const featureFile = '''
+Feature: Testing feature
+  Scenario Outline: Empty outline
+    When I test <value> parameter
+
+    Examples:
+      | value |
+''';
+
+    const expectedFeatureDart = '''
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import './step/i_test_parameter.dart';
+
+void main() {
+  group(\'\'\'Testing feature\'\'\', () {
+  });
+}
+''';
+
+    final feature = FeatureFile(
+      featureDir: 'test.feature',
+      package: 'test',
+      input: featureFile,
+    );
+    expect(feature.dartContent, expectedFeatureDart);
+  });
+
+  test('Scenario Outline with Unicode Characters in Variables', () {
+    const featureFile = '''
+Feature: Testing feature
+  Scenario Outline: Unicode variables
+    When I see <emoji> icon
+
+    Examples:
+      | emoji |
+      | '🚀'  |
+      | '💯'  |
+''';
+
+    const expectedFeatureDart = '''
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import './step/i_see_icon.dart';
+
+void main() {
+  group(\'\'\'Testing feature\'\'\', () {
+    testWidgets(\'\'\'Outline: Unicode variables ('🚀')\'\'\', (tester) async {
+      await iSeeIcon(tester, '🚀');
+    });
+    testWidgets(\'\'\'Outline: Unicode variables ('💯')\'\'\', (tester) async {
+      await iSeeIcon(tester, '💯');
+    });
+  });
+}
+''';
+
+    final feature = FeatureFile(
+      featureDir: 'test.feature',
+      package: 'test',
+      input: featureFile,
+    );
+    expect(feature.dartContent, expectedFeatureDart);
+  });
 }
