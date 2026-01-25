@@ -71,7 +71,7 @@ Feature: Counter
     Then I see {'1'} text
 ```
 
-`Backround` and `After` sections are optional. A `Background` allows you to add some context to the scenarios that follow it. It can contain one or more Given steps, which are run before each scenario. An `After` scenarion run even if a test fails, to ensure that it has a chance to clean up after itself. Most probably you don't need to use this keyword.
+`Background` and `After` sections are optional. A `Background` allows you to add some context to the scenarios that follow it. It can contain one or more Given steps, which are run before each scenario. An `After` scenarion run even if a test fails, to ensure that it has a chance to clean up after itself. Most probably you don't need to use this keyword.
 
 Each feature file must have one or more `Feature:`s. Features become test groups in Flutter tests.
 
